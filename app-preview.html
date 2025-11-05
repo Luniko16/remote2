@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Builder - App Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #3b82f6, #64748b);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .builder-section, .preview-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+        }
+        
+        .steps-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .step {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .step.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .step.completed {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        .form-section {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .form-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        
+        .form-description {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+        
+        .reference-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .reference-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .reference-title {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-field {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        
+        .resume-preview {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .resume-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #3b82f6;
+        }
+        
+        .resume-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resume-title {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resume-contact {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        .resume-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .resume-section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #3b82f6;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .references-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .reference-item {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .reference-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .reference-job {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-style: italic;
+            margin-bottom: 0.25rem;
+        }
+        
+        .reference-company {
+            font-size: 0.75rem;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+        
+        .reference-contact {
+            font-size: 0.6875rem;
+            color: #64748b;
+        }
+        
+        .export-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+        
+        .feature-highlight {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .feature-title {
+            color: #065f46;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-text {
+            color: #047857;
+            font-size: 0.875rem;
+        }
+        
+        .icon {
+            width: 1rem;
+            height: 1rem;
+            display: inline-block;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .references-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>
+                🤖 AI Resume Builder
+            </h1>
+            <p>Create professional, ATS-friendly resumes with AI-enhanced content powered by Google Gemini</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Builder Section -->
+            <div class="builder-section">
+                <h2 class="section-title">Resume Builder</h2>
+                
+                <!-- Steps Navigation -->
+                <div class="steps-nav">
+                    <div class="step completed">👤 Personal Info</div>
+                    <div class="step completed">💼 Experience</div>
+                    <div class="step completed">🎓 Education</div>
+                    <div class="step completed">🔧 Skills</div>
+                    <div class="step completed">📄 Summary</div>
+                    <div class="step active">👥 References</div>
+                    <div class="step">✉️ Cover Letter</div>
+                    <div class="step">🎨 Template</div>
+                </div>
+
+                <!-- References Step Form -->
+                <div class="form-section">
+                    <h3 class="form-title">References</h3>
+                    <p class="form-description">Add professional references who can vouch for your work experience and character.</p>
+                    <p class="form-description" style="font-size: 0.875rem; color: #64748b;">(Optional - you can also write "References available upon request")</p>
+                    
+                    <!-- Reference Card 1 -->
+                    <div class="reference-card">
+                        <div class="reference-header">
+                            <span class="reference-title">Reference 1</span>
+                            <button class="btn btn-outline" style="font-size: 0.75rem; padding: 0.5rem;">🗑️ Remove</button>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label class="form-label">Full Name</label>
+                                <input class="form-input" value="Sarah Johnson" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Job Title</label>
+                                <input class="form-input" value="Senior Manager" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Company</label>
+                                <input class="form-input" value="Tech Solutions Inc." readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Relationship</label>
+                                <input class="form-input" value="Former Manager" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Email</label>
+                                <input class="form-input" value="sarah.johnson@techsolutions.com" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Phone</label>
+                                <input class="form-input" value="+1 (555) 123-4567" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reference Card 2 -->
+                    <div class="reference-card">
+                        <div class="reference-header">
+                            <span class="reference-title">Reference 2</span>
+                            <button class="btn btn-outline" style="font-size: 0.75rem; padding: 0.5rem;">🗑️ Remove</button>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label class="form-label">Full Name</label>
+                                <input class="form-input" value="Michael Chen" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Job Title</label>
+                                <input class="form-input" value="Lead Developer" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Company</label>
+                                <input class="form-input" value="Innovation Labs" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Relationship</label>
+                                <input class="form-input" value="Colleague" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Email</label>
+                                <input class="form-input" value="m.chen@innovationlabs.com" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label class="form-label">Phone</label>
+                                <input class="form-input" value="+1 (555) 987-6543" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button class="btn btn-outline">➕ Add Reference</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section">
+                <h2 class="section-title">Resume Preview</h2>
+                
+                <!-- Export Buttons -->
+                <div class="export-buttons">
+                    <button class="btn btn-outline">📄 PDF</button>
+                    <button class="btn btn-outline">📝 Word</button>
+                    <button class="btn btn-outline">🌐 HTML</button>
+                </div>
+
+                <!-- Resume Preview -->
+                <div class="resume-preview">
+                    <!-- Header -->
+                    <div class="resume-header">
+                        <div class="resume-name">John Smith</div>
+                        <div class="resume-title">Full Stack Developer</div>
+                        <div class="resume-contact">john.smith@email.com | +1 (555) 123-4567 | New York, NY</div>
+                    </div>
+
+                    <!-- Summary -->
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Summary</h3>
+                        <p>Experienced Full Stack Developer with 5+ years of expertise in React, Node.js, and cloud technologies. Proven track record of delivering scalable web applications and leading development teams.</p>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Experience</h3>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-weight: 600;">Senior Developer</div>
+                            <div style="font-style: italic; font-size: 0.75rem; color: #64748b;">Tech Solutions Inc. | 2021 - Present</div>
+                            <p style="margin-top: 0.5rem;">Led development of enterprise web applications using React and Node.js, improving performance by 40%.</p>
+                        </div>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">Skills</h3>
+                        <p>JavaScript, React, Node.js, Python, AWS, Docker, MongoDB, PostgreSQL</p>
+                    </div>
+
+                    <!-- References -->
+                    <div class="resume-section">
+                        <h3 class="resume-section-title">References</h3>
+                        <div class="references-grid">
+                            <div class="reference-item">
+                                <div class="reference-name">Sarah Johnson</div>
+                                <div class="reference-job">Senior Manager</div>
+                                <div class="reference-company">Tech Solutions Inc.</div>
+                                <div class="reference-contact">Former Manager</div>
+                                <div class="reference-contact">sarah.johnson@techsolutions.com | +1 (555) 123-4567</div>
+                            </div>
+                            <div class="reference-item">
+                                <div class="reference-name">Michael Chen</div>
+                                <div class="reference-job">Lead Developer</div>
+                                <div class="reference-company">Innovation Labs</div>
+                                <div class="reference-contact">Colleague</div>
+                                <div class="reference-contact">m.chen@innovationlabs.com | +1 (555) 987-6543</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Highlights -->
+        <div class="feature-highlight">
+            <div class="feature-title">✨ New Features Added</div>
+            <div class="feature-text">
+                <strong>References Section:</strong> Add professional references with complete contact information<br>
+                <strong>Enhanced PDF Export:</strong> Text-based PDFs instead of screenshots for better ATS compatibility<br>
+                <strong>Template Integration:</strong> References appear in all resume templates (Professional, Modern, Creative)
+            </div>
+        </div>
+
+        <div class="feature-highlight" style="background: #fef3c7; border-color: #f59e0b;">
+            <div class="feature-title" style="color: #92400e;">🚀 How to Run the App</div>
+            <div class="feature-text" style="color: #b45309;">
+                1. Open terminal in project directory<br>
+                2. Run <code>npm install</code> to install dependencies<br>
+                3. Run <code>npm run dev</code> to start development server<br>
+                4. Open <code>http://localhost:9002</code> in your browser
+            </div>
+        </div>
+    </div>
+</body>
+</html>
