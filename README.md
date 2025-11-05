@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI Resume
 
 This is a Next.js application built in Firebase Studio that allows users to create professional, ATS-friendly resumes with the help of generative AI powered by Google Gemini.
@@ -49,3 +50,6 @@ We implemented three different export options, each using a specialized approach
     -   This function gathers the resume's HTML content and the necessary CSS styles, packages them into a single `.html` file, and uses `file-saver` to download it.
 
 This setup provides a powerful and feature-rich resume-building experience. I hope this explanation is helpful for you and your team!
+=======
+# remote2
+>>>>>>> a2255572c81c1fe659b5d7fc51a8219b663cc401
