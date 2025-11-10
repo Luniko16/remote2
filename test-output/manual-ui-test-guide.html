@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Export - Error Handling Manual Test Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            color: #667eea;
+            margin-top: 0;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .test-case {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        .test-case h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .steps {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .steps li {
+            margin: 8px 0;
+        }
+        .expected {
+            background: #e7f5ff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border-left: 4px solid #1c7ed6;
+        }
+        .expected h4 {
+            margin-top: 0;
+            color: #1c7ed6;
+        }
+        .expected ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .requirement-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-pending {
+            background-color: #ffd43b;
+        }
+        .status-pass {
+            background-color: #51cf66;
+        }
+        .status-fail {
+            background-color: #ff6b6b;
+        }
+        .summary {
+            background: #fff3bf;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #ffd43b;
+        }
+        .note {
+            background: #fff4e6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            border-left: 4px solid #fd7e14;
+        }
+        .note strong {
+            color: #fd7e14;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #51cf66 0%, #37b24d 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧪 PDF Export - Error Handling & User Feedback Test Guide</h1>
+        <p>Manual testing checklist for Requirements 2.4, 7.1, 7.2, 7.3, 7.4, 7.5</p>
+    </div>
+
+    <div class="summary">
+        <h2>📊 Test Progress</h2>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+        <p id="progressText">0 of 25 checks completed</p>
+    </div>
+
+    <div class="test-section">
+        <h2><span class="status-indicator status-pending"></span>Test 1: Loading Indicator Display <span class="requirement-badge">Req 7.1</span></h2>
+        <div class="test-case">
+            <h3>Verify loading indicator appears during PDF generation</h3>
+            
+            <div class="steps">
+                <h4>Steps:</h4>
+                <ol>
+                    <li>Open the application in your browser</li>
+                    <li>Navigate to the resume preview page</li>
+                    <li>Click the "PDF" export button</li>
+                    <li>Observe the button during generation</li>
+                </ol>
+            </div>
+
+            <div class="expected">
+                <h4>Expected Results:</h4>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test1-1" onchange="updateProgress()">
+                    <label for="test1-1">Loader2 spinner appears in the button</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test1-2" onchange="updateProgress()">
+                    <label for="test1-2">Spinner animates (rotates continuously)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test1-3" onchange="updateProgress()">
+                    <label for="test1-3">Download icon is replaced by spinner</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test1-4" onchange="updateProgress()">
+                    <label for="test1-4">Button text remains visible</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test1-5" onchange="updateProgress()">
+                    <label for="test1-5">Loading indicator disappears after completion</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2><span class="status-indicator status-pending"></span>Test 2: Button Disabled State <span class="requirement-badge">Req 7.2</span></h2>
+        <div class="test-case">
+            <h3>Verify button is disabled during PDF generation</h3>
+            
+            <div class="steps">
+                <h4>Steps:</h4>
+                <ol>
+                    <li>Click the "PDF" export button</li>
+                    <li>Immediately try to click it again multiple times</li>
+                    <li>Wait for generation to complete</li>
+                    <li>Try clicking the button again</li>
+                </ol>
+            </div>
+
+            <div class="expected">
+                <h4>Expected Results:</h4>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test2-1" onchange="updateProgress()">
+                    <label for="test2-1">Button becomes disabled immediately on first click</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test2-2" onchange="updateProgress()">
+                    <label for="test2-2">Subsequent clicks have no effect during generation</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test2-3" onchange="updateProgress()">
+                    <label for="test2-3">Button cursor changes to "not-allowed" when disabled</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test2-4" onchange="updateProgress()">
+                    <label for="test2-4">Button re-enables after generation completes</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test2-5" onchange="updateProgress()">
+                    <label for="test2-5">Button can be clicked again after re-enabling</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2><span class="status-indicator status-pending"></span>Test 3: Success Toast Notification <span class="requirement-badge">Req 7.3</span></h2>
+        <div class="test-case">
+            <h3>Verify success feedback is displayed</h3>
+            
+            <div class="steps">
+                <h4>Steps:</h4>
+                <ol>
+                    <li>Click the "PDF" export button</li>
+                    <li>Wait for generation to complete</li>
+                    <li>Observe the toast notification</li>
+                    <li>Check if PDF file downloads</li>
+                </ol>
+            </div>
+
+            <div class="expected">
+                <h4>Expected Results:</h4>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test3-1" onchange="updateProgress()">
+                    <label for="test3-1">Toast notification appears after successful generation</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test3-2" onchange="updateProgress()">
+                    <label for="test3-2">Toast displays success title</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test3-3" onchange="updateProgress()">
+                    <label for="test3-3">Toast displays "PDF generated successfully" message</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test3-4" onchange="updateProgress()">
+                    <label for="test3-4">PDF file downloads automatically</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test3-5" onchange="updateProgress()">
+                    <label for="test3-5">Toast auto-dismisses after a few seconds</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2><span class="status-indicator status-pending"></span>Test 4: Error Toast Display <span class="requirement-badge">Req 7.4</span></h2>
+        <div class="test-case">
+            <h3>Verify error feedback is displayed on failure</h3>
+            
+            <div class="note">
+                <strong>Note:</strong> To trigger an error, open browser DevTools (F12), go to Network tab, and set throttling to "Offline"
+            </div>
+
+            <div class="steps">
+                <h4>Steps:</h4>
+                <ol>
+                    <li>Open browser DevTools (F12)</li>
+                    <li>Go to Network tab</li>
+                    <li>Set throttling to "Offline"</li>
+                    <li>Click the "PDF" export button</li>
+                    <li>Observe the toast notification</li>
+                </ol>
+            </div>
+
+            <div class="expected">
+                <h4>Expected Results:</h4>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test4-1" onchange="updateProgress()">
+                    <label for="test4-1">Toast notification appears</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test4-2" onchange="updateProgress()">
+                    <label for="test4-2">Toast has red/destructive styling</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test4-3" onchange="updateProgress()">
+                    <label for="test4-3">Toast displays error title</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test4-4" onchange="updateProgress()">
+                    <label for="test4-4">Toast displays "Failed to generate PDF. Please try again." message</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test4-5" onchange="updateProgress()">
+                    <label for="test4-5">No PDF file is downloaded</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2><span class="status-indicator status-pending"></span>Test 5: Network Error Recovery <span class="requirement-badge">Req 2.4, 7.5</span></h2>
+        <div class="test-case">
+            <h3>Verify application recovers from network errors</h3>
+            
+            <div class="steps">
+                <h4>Steps:</h4>
+                <ol>
+                    <li>Set network to "Offline" in DevTools</li>
+                    <li>Click PDF export button (should fail)</li>
+                    <li>Re-enable network (set to "No throttling")</li>
+                    <li>Click PDF export button again</li>
+                </ol>
+            </div>
+
+            <div class="expected">
+                <h4>Expected Results:</h4>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test5-1" onchange="updateProgress()">
+                    <label for="test5-1">First attempt shows error toast</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test5-2" onchange="updateProgress()">
+                    <label for="test5-2">Button re-enables after first error</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test5-3" onchange="updateProgress()">
+                    <label for="test5-3">Second attempt succeeds</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test5-4" onchange="updateProgress()">
+                    <label for="test5-4">Success toast is displayed</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="test5-5" onchange="updateProgress()">
+                    <label for="test5-5">PDF downloads successfully</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Additional Notes</h2>
+        <div class="note">
+            <strong>Browser Console:</strong> Open the browser console (F12) during testing to verify that errors are being logged properly for debugging purposes.
+        </div>
+        <div class="note">
+            <strong>Multiple Browsers:</strong> Consider testing in Chrome, Firefox, Safari, and Edge to ensure consistent behavior across browsers.
+        </div>
+        <div class="note">
+            <strong>Slow Network:</strong> You can also test with "Slow 3G" throttling to see how the application behaves with slow network conditions.
+        </div>
+    </div>
+
+    <script>
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+            progressText.textContent = `${checked} of ${total} checks completed`;
+            
+            // Update section status indicators
+            updateSectionStatus();
+        }
+
+        function updateSectionStatus() {
+            const sections = [
+                { prefix: 'test1', index: 0 },
+                { prefix: 'test2', index: 1 },
+                { prefix: 'test3', index: 2 },
+                { prefix: 'test4', index: 3 },
+                { prefix: 'test5', index: 4 }
+            ];
+
+            sections.forEach(section => {
+                const checkboxes = [];
+                for (let i = 1; i <= 5; i++) {
+                    const checkbox = document.getElementById(`${section.prefix}-${i}`);
+                    if (checkbox) checkboxes.push(checkbox);
+                }
+
+                const allChecked = checkboxes.every(cb => cb.checked);
+                const someChecked = checkboxes.some(cb => cb.checked);
+
+                const indicator = document.querySelectorAll('.status-indicator')[section.index];
+                if (allChecked) {
+                    indicator.className = 'status-indicator status-pass';
+                } else if (someChecked) {
+                    indicator.className = 'status-indicator status-pending';
+                } else {
+                    indicator.className = 'status-indicator status-pending';
+                }
+            });
+        }
+
+        // Initialize on page load
+        updateProgress();
+    </script>
+</body>
+</html>

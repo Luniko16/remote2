@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Browser PDF Export Test Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .browser-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+
+        .browser-info h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+        }
+
+        .test-section h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .test-item {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .test-name {
+            font-size: 14px;
+            color: #333;
+            flex: 1;
+        }
+
+        .test-status {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .status-pass {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-fail {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .results-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .results-box.show {
+            display: block;
+        }
+
+        .manual-test {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        .manual-test h4 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #856404;
+        }
+
+        .manual-test ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .manual-test li {
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Cross-Browser PDF Export Test Tool</h1>
+            <p>Automated testing tool for verifying PDF export functionality across different browsers</p>
+        </div>
+
+        <div class="content">
+            <!-- Browser Information -->
+            <div class="browser-info">
+                <h2>📊 Browser Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Browser</span>
+                        <span class="info-value" id="browser-name">Detecting...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Version</span>
+                        <span class="info-value" id="browser-version">Detecting...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Platform</span>
+                        <span class="info-value" id="browser-platform">Detecting...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Test Date</span>
+                        <span class="info-value" id="test-date">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+
+            <!-- Summary -->
+            <div class="summary">
+                <div class="summary-card">
+                    <div class="summary-value" id="total-tests">0</div>
+                    <div class="summary-label">Total Tests</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" style="color: #28a745" id="passed-tests">0</div>
+                    <div class="summary-label">Passed</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" style="color: #dc3545" id="failed-tests">0</div>
+                    <div class="summary-label">Failed</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value" style="color: #ffc107" id="pending-tests">0</div>
+                    <div class="summary-label">Pending</div>
+                </div>
+            </div>
+
+            <!-- Automated Tests -->
+            <div class="test-section">
+                <h3>🤖 Automated Tests</h3>
+                <div id="automated-tests"></div>
+            </div>
+
+            <!-- Manual Tests -->
+            <div class="test-section">
+                <h3>👤 Manual Tests</h3>
+                <div class="manual-test">
+                    <h4>⚠️ Manual Verification Required</h4>
+                    <p style="margin-bottom: 10px; font-size: 13px;">Please perform the following tests manually in the application:</p>
+                    <ul>
+                        <li>Click the PDF export button and verify loading indicator appears</li>
+                        <li>Verify PDF downloads successfully</li>
+                        <li>Open the PDF and verify it displays correctly</li>
+                        <li>Verify text is selectable (not an image)</li>
+                        <li>Verify formatting matches the preview</li>
+                        <li>Test with all three templates (Professional, Modern, Creative)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="runTests()">▶️ Run Automated Tests</button>
+                <button class="btn btn-success" onclick="exportResults()">💾 Export Results</button>
+                <button class="btn btn-secondary" onclick="resetTests()">🔄 Reset</button>
+            </div>
+
+            <!-- Results -->
+            <div class="results-box" id="results-box"></div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+        let browserInfo = {};
+
+        // Detect browser
+        function detectBrowser() {
+            const ua = navigator.userAgent;
+            let name = 'Unknown';
+            let version = 'Unknown';
+
+            if (ua.includes('Chrome') && !ua.includes('Edg')) {
+                name = 'Chrome';
+                const match = ua.match(/Chrome\/(\d+\.\d+)/);
+                version = match ? match[1] : 'Unknown';
+            } else if (ua.includes('Firefox')) {
+                name = 'Firefox';
+                const match = ua.match(/Firefox\/(\d+\.\d+)/);
+                version = match ? match[1] : 'Unknown';
+            } else if (ua.includes('Safari') && !ua.includes('Chrome')) {
+                name = 'Safari';
+                const match = ua.match(/Version\/(\d+\.\d+)/);
+                version = match ? match[1] : 'Unknown';
+            } else if (ua.includes('Edg')) {
+                name = 'Edge';
+                const match = ua.match(/Edg\/(\d+\.\d+)/);
+                version = match ? match[1] : 'Unknown';
+            }
+
+            browserInfo = {
+                name,
+                version,
+                userAgent: ua,
+                platform: navigator.platform
+            };
+
+            document.getElementById('browser-name').textContent = name;
+            document.getElementById('browser-version').textContent = version;
+            document.getElementById('browser-platform').textContent = navigator.platform;
+            document.getElementById('test-date').textContent = new Date().toLocaleString();
+        }
+
+        // Define tests
+        const automatedTests = [
+            {
+                name: 'Browser APIs Available',
+                test: () => {
+                    const apis = ['fetch', 'Blob', 'atob', 'URL'];
+                    const missing = apis.filter(api => typeof window[api] === 'undefined');
+                    return {
+                        pass: missing.length === 0,
+                        message: missing.length === 0 ? 'All required APIs available' : `Missing: ${missing.join(', ')}`
+                    };
+                }
+            },
+            {
+                name: 'Blob API Functional',
+                test: () => {
+                    try {
+                        const blob = new Blob(['test'], { type: 'application/pdf' });
+                        return {
+                            pass: blob.size === 4 && blob.type === 'application/pdf',
+                            message: 'Blob API works correctly'
+                        };
+                    } catch (e) {
+                        return { pass: false, message: `Error: ${e.message}` };
+                    }
+                }
+            },
+            {
+                name: 'Base64 Decoding',
+                test: () => {
+                    try {
+                        const decoded = atob('dGVzdA==');
+                        return {
+                            pass: decoded === 'test',
+                            message: 'Base64 decoding works'
+                        };
+                    } catch (e) {
+                        return { pass: false, message: `Error: ${e.message}` };
+                    }
+                }
+            },
+            {
+                name: 'Download Attribute Support',
+                test: () => {
+                    const link = document.createElement('a');
+                    const supported = 'download' in link;
+                    return {
+                        pass: supported,
+                        message: supported ? 'Download attribute supported' : 'Download attribute not supported'
+                    };
+                }
+            },
+            {
+                name: 'URL.createObjectURL Support',
+                test: () => {
+                    try {
+                        const blob = new Blob(['test']);
+                        const url = URL.createObjectURL(blob);
+                        URL.revokeObjectURL(url);
+                        return {
+                            pass: true,
+                            message: 'URL.createObjectURL works'
+                        };
+                    } catch (e) {
+                        return { pass: false, message: `Error: ${e.message}` };
+                    }
+                }
+            }
+        ];
+
+        // Run tests
+        async function runTests() {
+            testResults = [];
+            const container = document.getElementById('automated-tests');
+            container.innerHTML = '';
+
+            for (let i = 0; i < automatedTests.length; i++) {
+                const test = automatedTests[i];
+                const result = test.test();
+                
+                testResults.push({
+                    name: test.name,
+                    status: result.pass ? 'PASS' : 'FAIL',
+                    message: result.message,
+                    timestamp: new Date().toISOString()
+                });
+
+                const testItem = document.createElement('div');
+                testItem.className = 'test-item';
+                testItem.innerHTML = `
+                    <div class="test-name">${test.name}</div>
+                    <div class="test-status">
+                        <span class="status-badge ${result.pass ? 'status-pass' : 'status-fail'}">
+                            ${result.pass ? '✓ PASS' : '✗ FAIL'}
+                        </span>
+                    </div>
+                `;
+                container.appendChild(testItem);
+
+                // Update progress
+                const progress = ((i + 1) / automatedTests.length) * 100;
+                document.getElementById('progress-fill').style.width = progress + '%';
+
+                // Small delay for visual effect
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            updateSummary();
+        }
+
+        // Update summary
+        function updateSummary() {
+            const total = testResults.length;
+            const passed = testResults.filter(r => r.status === 'PASS').length;
+            const failed = testResults.filter(r => r.status === 'FAIL').length;
+            const pending = total - passed - failed;
+
+            document.getElementById('total-tests').textContent = total;
+            document.getElementById('passed-tests').textContent = passed;
+            document.getElementById('failed-tests').textContent = failed;
+            document.getElementById('pending-tests').textContent = pending;
+        }
+
+        // Export results
+        function exportResults() {
+            const exportData = {
+                browser: browserInfo,
+                testDate: new Date().toISOString(),
+                results: testResults,
+                summary: {
+                    total: testResults.length,
+                    passed: testResults.filter(r => r.status === 'PASS').length,
+                    failed: testResults.filter(r => r.status === 'FAIL').length
+                }
+            };
+
+            const resultsBox = document.getElementById('results-box');
+            resultsBox.textContent = JSON.stringify(exportData, null, 2);
+            resultsBox.classList.add('show');
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(JSON.stringify(exportData, null, 2)).then(() => {
+                alert('✅ Results copied to clipboard!');
+            });
+        }
+
+        // Reset tests
+        function resetTests() {
+            testResults = [];
+            document.getElementById('automated-tests').innerHTML = '';
+            document.getElementById('results-box').classList.remove('show');
+            document.getElementById('progress-fill').style.width = '0%';
+            updateSummary();
+        }
+
+        // Initialize
+        detectBrowser();
+        updateSummary();
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Key Test</title>
+</head>
+<body>
+    <h1>API Key Configuration Test</h1>
+    <button onclick="setApiKey()">Set API Key in localStorage</button>
+    <button onclick="checkApiKey()">Check API Key</button>
+    <button onclick="clearApiKey()">Clear API Key</button>
+    <div id="result"></div>
+
+    <script>
+        function setApiKey() {
+            localStorage.setItem('google_ai_api_key', 'AIzaSyAMey9HpHfweRLO62_BOAYJewKqO20Qe54');
+            document.getElementById('result').innerHTML = 'API key set in localStorage';
+        }
+
+        function checkApiKey() {
+            const key = localStorage.getItem('google_ai_api_key');
+            document.getElementById('result').innerHTML = 'API key: ' + (key ? key.substring(0, 10) + '...' : 'Not found');
+        }
+
+        function clearApiKey() {
+            localStorage.removeItem('google_ai_api_key');
+            document.getElementById('result').innerHTML = 'API key cleared';
+        }
+    </script>
+</body>
+</html>
