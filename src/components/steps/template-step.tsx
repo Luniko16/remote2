@@ -21,10 +21,16 @@ const templates: { name: Template; label: string; image: string }[] = [
 ];
 
 const colors = [
-  { name: 'Indigo', value: 'hsl(220, 19%, 38%)' },
-  { name: 'Slate Blue', value: 'hsl(203, 26%, 60%)' },
-  { name: 'Teal', value: 'hsl(173, 58%, 39%)' },
-  { name: 'Rose', value: 'hsl(340, 82%, 52%)' },
+  { name: 'Navy Blue', value: 'hsl(220, 19%, 38%)' },
+  { name: 'Charcoal', value: 'hsl(0, 0%, 25%)' },
+  { name: 'Deep Teal', value: 'hsl(173, 58%, 39%)' },
+  { name: 'Forest Green', value: 'hsl(140, 40%, 35%)' },
+  { name: 'Burgundy', value: 'hsl(345, 60%, 35%)' },
+  { name: 'Slate Gray', value: 'hsl(210, 15%, 45%)' },
+  { name: 'Dark Blue', value: 'hsl(210, 50%, 35%)' },
+  { name: 'Espresso', value: 'hsl(25, 30%, 30%)' },
+  { name: 'Midnight', value: 'hsl(230, 35%, 25%)' },
+  { name: 'Steel Blue', value: 'hsl(207, 44%, 49%)' },
 ];
 
 const fonts = [
