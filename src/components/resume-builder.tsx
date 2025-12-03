@@ -36,6 +36,7 @@ import {
 import { useLanguage } from '@/context/language-context';
 import { translations } from '@/lib/translations';
 import { LanguageSelector } from './language-selector';
+import { CvUpload } from './cv-upload';
 
 
 export function ResumeBuilder() {
@@ -90,6 +91,19 @@ export function ResumeBuilder() {
   const handleReset = () => {
     resetResumeData();
     window.location.reload();
+  };
+
+  const handleCvDataExtracted = (extractedData: Partial<ResumeData>) => {
+    // Merge extracted data with current form data
+    const currentData = methods.getValues();
+    const mergedData = {
+      ...currentData,
+      ...extractedData,
+      template: currentData.template, // Keep current template
+      style: currentData.style, // Keep current style
+    };
+    methods.reset(mergedData);
+    setResumeData(mergedData as ResumeData);
   };
 
   const resumeData = methods.getValues();
@@ -187,6 +201,7 @@ export function ResumeBuilder() {
 
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="lg:w-1/2">
+            <CvUpload onDataExtracted={handleCvDataExtracted} />
             <StepWrapper
               step={steps[currentStep]}
               onNext={handleNext}

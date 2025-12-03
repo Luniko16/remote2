@@ -10,6 +10,7 @@ import { ElegantTemplate } from './templates/elegant-template';
 import { BoldTemplate } from './templates/bold-template';
 import { MinimalistTemplate } from './templates/minimalist-template';
 import { AiPoweredTemplate } from './templates/ai-powered-template';
+import { CapacitiStyleTemplate } from './templates/capaciti-style-template';
 import { Button } from './ui/button';
 import { Download, Loader2, FileText, Code } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -48,6 +49,8 @@ export function ResumePreview({ resumeData, isMounted }: ResumePreviewProps) {
         return <MinimalistTemplate data={resumeData} />;
       case 'ai-powered':
         return <AiPoweredTemplate data={resumeData} />;
+      case 'capaciti-style':
+        return <CapacitiStyleTemplate data={resumeData} />;
       default:
         return <ProfessionalTemplate data={resumeData} />;
     }
