@@ -6,6 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { ProfessionalTemplate } from './templates/professional-template';
 import { ModernTemplate } from './templates/modern-template';
 import { CreativeTemplate } from './templates/creative-template';
+import { ElegantTemplate } from './templates/elegant-template';
+import { BoldTemplate } from './templates/bold-template';
+import { MinimalistTemplate } from './templates/minimalist-template';
 import { Button } from './ui/button';
 import { Download, Loader2, FileText, Code } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -36,6 +39,12 @@ export function ResumePreview({ resumeData, isMounted }: ResumePreviewProps) {
         return <ModernTemplate data={resumeData} />;
       case 'creative':
         return <CreativeTemplate data={resumeData} />;
+      case 'elegant':
+        return <ElegantTemplate data={resumeData} />;
+      case 'bold':
+        return <BoldTemplate data={resumeData} />;
+      case 'minimalist':
+        return <MinimalistTemplate data={resumeData} />;
       default:
         return <ProfessionalTemplate data={resumeData} />;
     }

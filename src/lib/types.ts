@@ -37,7 +37,7 @@ export type Reference = {
   relationship: string;
 };
 
-export type Template = 'professional' | 'modern' | 'creative';
+export type Template = 'professional' | 'modern' | 'creative' | 'elegant' | 'bold' | 'minimalist';
 
 export type ResumeData = {
   personal: PersonalInfo;

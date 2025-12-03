@@ -15,6 +15,9 @@ const templates: { name: Template; label: string; image: string }[] = [
   { name: 'professional', label: 'Professional', image: 'https://picsum.photos/seed/prof/300/400' },
   { name: 'modern', label: 'Modern', image: 'https://picsum.photos/seed/modern/300/400' },
   { name: 'creative', label: 'Creative', image: 'https://picsum.photos/seed/creative/300/400' },
+  { name: 'elegant', label: 'Elegant', image: 'https://picsum.photos/seed/elegant/300/400' },
+  { name: 'bold', label: 'Bold', image: 'https://picsum.photos/seed/bold/300/400' },
+  { name: 'minimalist', label: 'Minimalist', image: 'https://picsum.photos/seed/minimal/300/400' },
 ];
 
 const colors = [
