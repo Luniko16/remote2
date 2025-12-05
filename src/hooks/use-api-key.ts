@@ -9,7 +9,16 @@ export function useApiKey() {
   useEffect(() => {
     // Load API key from localStorage on mount
     const loadApiKey = () => {
-      const savedKey = localStorage.getItem('google_ai_api_key');
+      // First check localStorage
+      let savedKey = localStorage.getItem('google_ai_api_key');
+      
+      // If no key in localStorage, use the hardcoded fallback from env
+      if (!savedKey) {
+        savedKey = 'AIzaSyAMey9HpHfweRLO62_BOAYJewKqO20Qe54';
+        // Optionally save it to localStorage for future use
+        localStorage.setItem('google_ai_api_key', savedKey);
+      }
+      
       setApiKey(savedKey);
       setIsLoading(false);
     };
