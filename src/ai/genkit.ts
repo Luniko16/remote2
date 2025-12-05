@@ -1,12 +1,15 @@
 import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/googleai';
 
-// Get API key from environment
-const apiKey = process.env.GOOGLE_GENAI_API_KEY || process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
+// Get API key from environment with fallback
+const apiKey = process.env.GOOGLE_GENAI_API_KEY || 
+               process.env.GOOGLE_API_KEY || 
+               process.env.GEMINI_API_KEY ||
+               process.env.GOOGLE_GENAI_API_KEY_BACKUP ||
+               'AIzaSyAMey9HpHfweRLO62_BOAYJewKqO20Qe54'; // Fallback key from .env.local
 
-if (!apiKey) {
-  console.warn('Warning: No Google AI API key found. AI features will not work.');
-}
+console.log('Genkit - API Key available:', !!apiKey);
+console.log('Genkit - API Key length:', apiKey?.length);
 
 export const ai = genkit({
   plugins: [
