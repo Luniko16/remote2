@@ -1,6 +1,6 @@
 'use server';
 
-import { extractCvDataFlow } from '@/ai/flows/extract-cv-data';
+import { extractCvData as extractCvDataFlow } from '@/ai/flows/extract-cv-data';
 
 export async function extractCvData(cvText: string) {
   try {
