@@ -34,6 +34,10 @@ export function CoverLetterStep() {
 
     setIsLoading(true);
     const resumeData = getValues();
+    
+    // Get API key from localStorage
+    const apiKey = typeof window !== 'undefined' ? localStorage.getItem('google_ai_api_key') : null;
+    
     try {
       const result = await generateCoverLetter({
         companyName,
@@ -42,6 +46,7 @@ export function CoverLetterStep() {
         summary: resumeData.summary,
         experience: resumeData.experience.map(exp => exp.description).join('\n\n'),
         language: language,
+        apiKey: apiKey || undefined,
       });
       setValue('coverLetter', result.coverLetter, { shouldValidate: true });
       toast({

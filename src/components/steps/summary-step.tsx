@@ -28,12 +28,17 @@ export function SummaryStep() {
   const handleGenerateSummary = async () => {
     setIsSummaryLoading(true);
     const resumeData = getValues();
+    
+    // Get API key from localStorage
+    const apiKey = typeof window !== 'undefined' ? localStorage.getItem('google_ai_api_key') : null;
+    
     try {
       const result = await generateAiSummary({
         jobTitle: resumeData.personal.jobTitle,
         skills: resumeData.skills.join(', '),
         experience: resumeData.experience[0]?.jobRole || '',
-        language: language
+        language: language,
+        apiKey: apiKey || undefined,
       });
       setValue('summary', result.summary, { shouldValidate: true });
       toast({

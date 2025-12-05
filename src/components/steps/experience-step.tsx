@@ -35,10 +35,15 @@ export function ExperienceStep() {
       return;
     }
     setLoadingStates(prev => ({ ...prev, [entry.id]: true }));
+    
+    // Get API key from localStorage
+    const apiKey = typeof window !== 'undefined' ? localStorage.getItem('google_ai_api_key') : null;
+    
     try {
       const result = await enhanceExperienceDescription({
         jobTitle: entry.jobRole || getValues('personal.jobTitle'),
         description: entry.description,
+        apiKey: apiKey || undefined,
       });
       setValue(`experience.${index}.description`, result.enhancedDescription, { shouldValidate: true });
       toast({
