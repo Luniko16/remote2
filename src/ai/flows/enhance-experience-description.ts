@@ -31,7 +31,7 @@ export async function enhanceExperienceDescription(
 
 const prompt = ai.definePrompt({
   name: 'enhanceExperienceDescriptionPrompt',
-  model: 'gemini-1.5-flash',
+  model: 'googleai/gemini-1.5-flash',
   input: {schema: EnhanceExperienceDescriptionInputSchema},
   output: {schema: EnhanceExperienceDescriptionOutputSchema},
   prompt: `You are an expert resume writer. Rewrite the following work experience description for a {{{jobTitle}}} into 3-4 very concise, professional bullet points. Use fewer words and focus on impact.

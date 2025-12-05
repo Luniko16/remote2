@@ -64,7 +64,7 @@ export async function extractCvData(input: ExtractCvDataInput): Promise<ExtractC
 
     const prompt = ai.definePrompt({
       name: 'extractCvDataPrompt',
-      model: 'gemini-1.5-flash',
+      model: 'googleai/gemini-1.5-flash',
       input: { schema: ExtractCvDataInputSchema },
       output: { schema: extractCvDataSchema },
       prompt: `You are an expert CV/resume parser. Extract all relevant information from the following CV text and structure it according to the schema.
