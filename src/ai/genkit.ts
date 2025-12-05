@@ -20,7 +20,6 @@ export function createAI(apiKey?: string) {
     console.log('CreateAI - Returning AI instance without plugins');
     return genkit({
       plugins: [],
-      model: 'googleai/gemini-1.5-flash',
     });
   }
 
@@ -32,7 +31,6 @@ export function createAI(apiKey?: string) {
   console.log('CreateAI - Creating AI instance with googleAI plugin');
   return genkit({
     plugins: [googleAI()], // Let it use the environment variable
-    model: 'googleai/gemini-1.5-flash',
   });
 }
 
