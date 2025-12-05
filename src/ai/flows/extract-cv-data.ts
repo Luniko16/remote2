@@ -47,7 +47,7 @@ export const extractCvDataFlow = ai.defineFlow(
   },
   async (input) => {
     const { text } = await ai.generate({
-      model: 'googleai/gemini-1.5-flash',
+      model: 'gemini-1.5-flash',
       prompt: `You are an expert CV/resume parser. Extract all relevant information from the following CV text and structure it according to the schema.
 
 Instructions:
