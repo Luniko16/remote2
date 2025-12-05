@@ -46,7 +46,7 @@ export async function generateAiSummary(input: GenerateAiSummaryInput): Promise<
 
     const prompt = ai.definePrompt({
       name: 'generateAiSummaryPrompt',
-      model: 'googleai/gemini-1.5-flash',
+      model: 'googleai/gemini-1.5-flash-latest',
       input: { schema: GenerateAiSummaryInputSchema },
       output: { schema: GenerateAiSummaryOutputSchema },
       prompt: `Write a professional resume summary in {{{language}}}.

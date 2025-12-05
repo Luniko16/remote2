@@ -44,7 +44,7 @@ export async function analyzeJobDescription(
 
 const analyzeJobDescriptionPrompt = ai.definePrompt({
   name: 'analyzeJobDescriptionPrompt',
-  model: 'googleai/gemini-1.5-flash',
+  model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: AnalyzeJobDescriptionInputSchema},
   output: {schema: AnalyzeJobDescriptionOutputSchema},
   prompt: `Analyze the following job description and identify the key skills, technologies, and qualifications required. Also compare it to these resume skills: {{{resumeSkills}}}. Provide a list of matched skills and missing skills. Format the response with clear headings for "Matched Skills" and "Skills to Consider Adding".\n\nJob Description:\n{{{jobDescription}}}`,
